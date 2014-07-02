@@ -61,7 +61,11 @@ class Command(BaseImporterCommand):
             # Get the time struct of the published date if possible and
             # the updated date if we can't.
             pub_date = getattr(entry, "published_parsed", entry.updated_parsed)
-            pub_date = datetime.fromtimestamp(mktime(pub_date))
+            try:
+                pub_date = datetime.fromtimestamp(mktime(pub_date))
+            except TypeError:
+                # skip draft posts, see: https://groups.google.com/d/msg/mezzanine-users/P9NnwfAjvKs/aRjQjHNZs1YJ
+                continue
             pub_date -= timedelta(seconds=timezone)
 
             # Tags and categories are all under "tags" marked with a scheme.
