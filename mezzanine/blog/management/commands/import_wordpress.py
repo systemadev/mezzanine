@@ -65,6 +65,7 @@ class Command(BaseImporterCommand):
                 pub_date = datetime.fromtimestamp(mktime(pub_date))
             except TypeError:
                 # skip draft posts, see: https://groups.google.com/d/msg/mezzanine-users/P9NnwfAjvKs/aRjQjHNZs1YJ
+                print ("Invalid pubDate, entry skipped", entry.title)
                 continue
             pub_date -= timedelta(seconds=timezone)
 
